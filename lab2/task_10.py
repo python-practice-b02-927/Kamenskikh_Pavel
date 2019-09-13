@@ -1,4 +1,6 @@
 import turtle as t
+
+
 t.shape('turtle')
 N=50
 K=3

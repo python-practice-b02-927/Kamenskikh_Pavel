@@ -1,7 +1,9 @@
 import turtle as t
+
+
 t.shape('turtle')
 number=12
-step=30
+step=50
 for i in range(number):
 	t.forward(step)
 	t.stamp()

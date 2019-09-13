@@ -1,4 +1,6 @@
 import turtle as t
+
+
 t.shape('turtle')
 t.left(90)
 N=30
