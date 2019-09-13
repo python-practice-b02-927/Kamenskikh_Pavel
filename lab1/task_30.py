@@ -14,7 +14,7 @@ def task_9_3():
         move_left()
     while n>=0:
         square(n)
-        n+=(-2)
+        n-=2
     while not wall_is_on_the_left():
         move_left()
     while not wall_is_beneath():
