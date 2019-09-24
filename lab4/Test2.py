@@ -5,10 +5,10 @@ SIZE_X=600
 SIZE_Y=800
 
 def draw_snowman(win):
-
+    
 
 def draw_ice_hole(win):
-    e1 = gr.Oval(gr.Point(SIZE_X*1/2, SIZE_Y*13/16), gr.Point(SIZE_X*5/6, SIZE_Y*11/16))
+    e1 = gr.Oval(gr.Point(300, 650), gr.Point(500, 550))
     e1.setFill("Grey")
     e1.setOutline("Grey")
 
@@ -16,9 +16,9 @@ def draw_ice_hole(win):
     e2.setFill("Blue")
     e2.setOutline("Blue")
 
-
     e1.draw(w)
     e2.draw(w)
+
 
 def draw_fishing_rod(win):
     pass
