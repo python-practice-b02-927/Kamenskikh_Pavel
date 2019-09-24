@@ -2,19 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9871eca4-e641-46d5-83ff-6c7f8236d14b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/lab4.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Model_1.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Test1.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Test2.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/graphics.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/task_2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Lab3/task_1.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../Roman.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Test2.py" beforeDir="false" afterPath="$PROJECT_DIR$/Test2.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

@@ -1,18 +1,29 @@
 import graphics as gr
 
 
-SIZE_X=600
-SIZE_Y=800
+SIZE_X = 600
+SIZE_Y = 600
+
+def draw_body_fish():
+    e3 = gr.Oval(gr.Point(400, 550), gr.Point(480, 500))
+    e3.setFill("Yellow")
+    e3.setOutline("Yellow")
+    e3.draw(w)
+
+
+
+
 
 def draw_snowman(win):
-    
+    pass
+
 
 def draw_ice_hole(win):
-    e1 = gr.Oval(gr.Point(300, 650), gr.Point(500, 550))
-    e1.setFill("Grey")
-    e1.setOutline("Grey")
+    e1 = gr.Oval(gr.Point(300, 450), gr.Point(500, 350))
+    e1.setFill("Black")
+    e1.setOutline("Black")
 
-    e2 = gr.Oval(gr.Point(SIZE_X*7/12, SIZE_Y*13/16), gr.Point(SIZE_X*3/4, SIZE_Y*3/4))
+    e2 = gr.Oval(gr.Point(350, 450), gr.Point(450, 400))
     e2.setFill("Blue")
     e2.setOutline("Blue")
 
@@ -37,7 +48,20 @@ def draw_background(win):
 
 
 def draw_fish(win):
-    pass
+    draw_body_fish()
+
+    t1 = gr.Polygon(gr.Point(400, 525), gr.Point(370, 480), gr.Point(360, 580))
+    t1.setFill("Yellow")
+    t1.setOutline("Yellow")
+    t1.draw(w)
+
+    eye = gr.Circle(gr.Point(460, 520), 5)
+    eye.setFill("Black")
+    eye.setOutline("Black")
+
+
+    eye.draw((w))
+
 
 
 def draw_star(win):
