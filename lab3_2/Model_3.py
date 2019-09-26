@@ -1,10 +1,23 @@
 import graphics as gr
+import math
+
+from math import sin, pi, cos
 
 SIZE_X = 800
 SIZE_Y = 600
 
 w = gr.GraphWin("Resistance", SIZE_X, SIZE_Y)
-t=1
+t = 1
+k1 = 0.01
+k2 = 0.1
+Velocity = 10
+a = pi/3
+
+coords = gr.Point(100, 500)
+velocity = gr.Point(Velocity*cos(a), Velocity*sin(a))
+
+acceleration_g = 10
+acceleration_k = gr.Point(0, 0)
 
 
 def draw_background():
@@ -63,7 +76,7 @@ def main():
     check_walls()
     check_water()
     check_floor()
-    
+
 
 decoration()
 
