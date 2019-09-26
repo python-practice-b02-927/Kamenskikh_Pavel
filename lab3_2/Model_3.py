@@ -34,8 +34,8 @@ def draw_background(w):
     sky.draw(w)
     sea.draw(w)
     sand.draw(w)
-    raft(0, SIZE_Y/2)
-    raft(SIZE_X/8, SIZE_Y/2)
+    draw_raft(0)
+    draw_raft(SIZE_X*7/8)
 
 
 def draw_ball(w):
@@ -46,9 +46,21 @@ def draw_ball(w):
     ball.draw(w)
 
 
-def raft(x, y):
-    pass
+def draw_raft(x):
+    raft = gr.Rectangle(gr.Point(x, SIZE_Y/2 - 10), gr.Point(x+100, SIZE_Y/2+20))
+    raft.setFill('Brown')
+    raft.setOutline('Brown')
 
+    for i in range(5):
+        draw_log(20*i+10+x)
+    raft.draw(w)
+
+def draw_log(x):
+    log = gr.Circle(gr.Point(x, SIZE_Y/2+30), 10)
+    log.setFill('Sienna3')
+    log.setOutline('Brown')
+
+    log.draw(w)
 
 def draw_sun(w):
     pass
