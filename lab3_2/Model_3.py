@@ -13,7 +13,7 @@ k2 = 0.1
 Velocity = 10
 a = pi/3
 
-coords = gr.Point(100, 500)
+coords = gr.Point(100, 280)
 velocity = gr.Point(Velocity*cos(a), Velocity*sin(a))
 
 acceleration_g = 10
@@ -39,7 +39,11 @@ def draw_background(w):
 
 
 def draw_ball(w):
-    pass
+    ball = gr.Circle(coords, 20)
+    ball.setFill('Red')
+    ball.setOutline('Red')
+
+    ball.draw(w)
 
 
 def raft(x, y):
