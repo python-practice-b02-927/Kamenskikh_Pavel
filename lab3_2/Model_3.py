@@ -7,16 +7,18 @@ SIZE_X = 800
 SIZE_Y = 600
 
 w = gr.GraphWin("Resistance", SIZE_X, SIZE_Y)
-t = 1
 k1 = 0.03
 k2 = 0.3
-Velocity = 30
-a = pi/3
-Fish = []
-coords_ball = gr.Point(100, SIZE_Y/2-20)
-c_fish = gr.Point(100, 500)
 
-velocity = gr.Point(Velocity*cos(a), -Velocity*sin(a))
+V = 30
+coords_ball = gr.Point(100, SIZE_Y/2-20)
+a = pi/3
+velocity_ball = gr.Point(V*cos(a), -V*sin(a))
+
+fish = []
+c_fish = gr.Point(70, 500)
+Vf = 20
+velocity_fish = gr.Point(0, 0)
 
 acceleration_g = 2
 acceleration_k = gr.Point(0, 0)
@@ -90,83 +92,91 @@ def draw_fish(c_fish):
 
 
 def body_fish(c_fish):
-    body = gr.Oval(gr.Point(c_fish.x, c_fish.y-20), gr.Point(c_fish.x+50, c_fish.y+20))
+    body = gr.Oval(gr.Point(c_fish.x - 50, c_fish.y - 20), gr.Point(c_fish.x, c_fish.y + 20))
     body.setFill('Green')
     body.setOutline('Green')
     body.draw(w)
 
-    Fish.append(body)
+    fish.append(body)
+
 
 def tail_fish(c_fish):
-    tail = gr.Polygon(gr.Point(c_fish.x, c_fish.y), gr.Point(c_fish.x - 20, c_fish.y - 20),
-                      gr.Point(c_fish.x - 20, c_fish.y + 20))
+    tail = gr.Polygon(gr.Point(c_fish.x - 50, c_fish.y), gr.Point(c_fish.x - 70, c_fish.y - 20),
+                      gr.Point(c_fish.x - 70, c_fish.y + 20))
     tail.setOutline('Red')
     tail.setFill('Red')
 
     tail.draw(w)
-    Fish.append(tail)
+    fish.append(tail)
 
 def fin_fish(c_fish):
-    fin = gr.Polygon(gr.Point(c_fish.x + 20, c_fish.y - 20), gr.Point(c_fish.x + 30, c_fish.y - 20),
-                     gr.Point(c_fish.x + 15, c_fish.y - 35))
+    fin = gr.Polygon(gr.Point(c_fish.x - 30, c_fish.y - 20), gr.Point(c_fish.x - 20, c_fish.y - 20),
+                     gr.Point(c_fish.x - 35, c_fish.y - 35))
     fin.setOutline('Red')
     fin.setFill('Red')
 
     fin.draw(w)
-    Fish.append(fin)
+    fish.append(fin)
 
 
 def eye_fish(c_fish):
-    eye1 = gr.Circle(gr.Point(c_fish.x+40, c_fish.y-10), 5)
+    eye1 = gr.Circle(gr.Point(c_fish.x - 10, c_fish.y - 10), 5)
     eye1.setFill('White')
 
-    eye2 = gr.Circle(gr.Point(c_fish.x + 40, c_fish.y - 10), 2)
+    eye2 = gr.Circle(gr.Point(c_fish.x - 10, c_fish.y - 10), 2)
     eye2.setFill('Black')
 
     eye1.draw(w)
     eye2.draw(w)
 
-    Fish.append(eye1, eye2)
+    fish.append(eye1)
+    fish.append(eye2)
 
-def update_velocity():
-    velocity.x += acceleration_k.x
-    velocity.y += acceleration_k.y + acceleration_g
+
+def update_velocity_ball():
+    velocity_ball.x += acceleration_k.x
+    velocity_ball.y += acceleration_k.y + acceleration_g
+
+
+def update_velocity_fish():
+    velocity_fish.x = Vf * (coords_ball.x - c_fish.x) / ((
+            (coords_ball.x - c_fish.x) ** 2 + (coords_ball.y - c_fish.y) ** 2) ** (1 / 2))
+    velocity_fish.y = Vf * (coords_ball.y - c_fish.y) / ((
+                (coords_ball.x - c_fish.x) ** 2 + (coords_ball.y - c_fish.y) ** 2) ** (1 / 2))
 
 
 def update_acceleration():
     if coords_ball.y <= SIZE_Y/2:
-        acceleration_k.x = -k1 * velocity.x
-        acceleration_k.y = -k1 * velocity.y
+        acceleration_k.x = -k1 * velocity_ball.x
+        acceleration_k.y = -k1 * velocity_ball.y
     elif coords_ball.y >= SIZE_Y/2 - 20 and coords_ball.x <= SIZE_X*3/4:
-        acceleration_k.x = -k2 * velocity.x
-        acceleration_k.y = -k2 * velocity.y
+        acceleration_k.x = -k2 * velocity_ball.x
+        acceleration_k.y = -k2 * velocity_ball.y
 
 
 def stop_ball():
-    velocity.x = 0
-    velocity.y = 0
+    velocity_ball.x = 0
+    velocity_ball.y = 0
     update_acceleration()
 
 
 def check_raft():
-    if coords_ball.y >= SIZE_Y/2 - 20 and coords_ball.x >= SIZE_X*3/4:
+    if coords_ball.y <= SIZE_Y/2 - 20 and coords_ball.x >= SIZE_X*3/4:
         stop_ball()
 
 
 def check_walls():
     if coords_ball.x >= SIZE_X:
-        velocity.x = -velocity.x
+        velocity_ball.x = -velocity_ball.x
         update_acceleration()
     elif coords_ball.y <= 0:
-        velocity.y = -velocity.y
+        velocity_ball.y = -velocity_ball.y
         update_acceleration()
 
 
 def check_floor():
     if coords_ball.y >= SIZE_Y*11/12-20:
         stop_ball()
-
-
 
 
 def decoration(w):
@@ -177,32 +187,44 @@ def decoration(w):
     draw_fish(c_fish)
 
 
-def move(ball):
-    ball.move(velocity.x, velocity.y)
-    coords_ball.x += velocity.x
-    coords_ball.y += velocity.y
+def move_ball(ball, colour):
+    ball.setFill(colour)
+    ball.setOutline(colour)
+    ball.move(velocity_ball.x, velocity_ball.y)
+    coords_ball.x += velocity_ball.x
+    coords_ball.y += velocity_ball.y
     gr.time.sleep(0.2)
     update_acceleration()
-    update_velocity()
+    update_velocity_ball()
 
 
-def main(t, ball):
-    while t <= 100:
-        move(ball)
+def move_fish(fish):
+    if coords_ball.y >= SIZE_Y/2:
+        update_velocity_fish()
+        for i in range(5):
+            fish[i].move(velocity_fish.x, velocity_fish.y)
+            c_fish.x += velocity_fish.x
+            c_fish.y += velocity_fish.y
+        gr.time.sleep(0.2)
+
+
+def main(ball):
+    while coords_ball.x - c_fish.x >= 20:
+        move_ball(ball, 'Red')
         check_walls()
         check_raft()
         check_floor()
-        t += 1
+        move_fish(fish)
+    else:
+        velocity_fish.x = 0
+        velocity_fish.y = 0
+        move_ball(ball, 'Navy')
 
 
 decoration(w)
 ball = gr.Circle(coords_ball, 20)
-ball.setFill('Red')
-ball.setOutline('Red')
-
 ball.draw(w)
-
-main(t, ball)
+main(ball)
 
 w.getMouse()
 w.close()
