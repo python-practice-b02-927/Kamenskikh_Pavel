@@ -1,27 +1,25 @@
 import graphics as gr
-import math
 
 from math import sin, pi, cos
 
 SIZE_X = 800
 SIZE_Y = 600
-
 w = gr.GraphWin("Resistance", SIZE_X, SIZE_Y)
+
 k1 = 0.03
 k2 = 0.3
 
 V = 30
 coords_ball = gr.Point(100, SIZE_Y/2-20)
-a = pi/3
+a = pi/4
 velocity_ball = gr.Point(V*cos(a), -V*sin(a))
+acceleration_g = 2
+acceleration_k = gr.Point(0, 0)
 
 fish = []
 c_fish = gr.Point(70, 500)
-Vf = 20
+Vf = 10
 velocity_fish = gr.Point(0, 0)
-
-acceleration_g = 2
-acceleration_k = gr.Point(0, 0)
 
 
 def draw_background(w):
@@ -38,6 +36,7 @@ def draw_background(w):
     sky.draw(w)
     sea.draw(w)
     sand.draw(w)
+
     draw_raft(0)
     draw_raft(SIZE_X*6/8)
 
@@ -48,7 +47,7 @@ def draw_raft(x):
     raft.setOutline('Brown')
 
     for i in range(5):
-        draw_log(40*i+20+x)
+        draw_log(40*i + 20 + x)
     raft.draw(w)
 
 
@@ -70,10 +69,10 @@ def draw_sun(w):
 
 def draw_cloud(x, y):
     for i in range(4):
-        part_of_cloud(x+i*30, y, 15)
-        part_of_cloud(x+i*30 + 15, y+15, 20)
-        part_of_cloud(x+i*30 + 15, y-15, 20)
-    part_of_cloud(x+120, y, 15)
+        part_of_cloud(x + i*30, y, 15)
+        part_of_cloud(x + i*30 + 15, y + 15, 20)
+        part_of_cloud(x + i*30 + 15, y - 15, 20)
+    part_of_cloud(x + 120, y, 15)
 
 
 def part_of_cloud(x, y, r):
@@ -95,6 +94,7 @@ def body_fish(c_fish):
     body = gr.Oval(gr.Point(c_fish.x - 50, c_fish.y - 20), gr.Point(c_fish.x, c_fish.y + 20))
     body.setFill('Green')
     body.setOutline('Green')
+
     body.draw(w)
 
     fish.append(body)
@@ -107,7 +107,9 @@ def tail_fish(c_fish):
     tail.setFill('Red')
 
     tail.draw(w)
+
     fish.append(tail)
+
 
 def fin_fish(c_fish):
     fin = gr.Polygon(gr.Point(c_fish.x - 30, c_fish.y - 20), gr.Point(c_fish.x - 20, c_fish.y - 20),
@@ -116,6 +118,7 @@ def fin_fish(c_fish):
     fin.setFill('Red')
 
     fin.draw(w)
+
     fish.append(fin)
 
 
@@ -147,11 +150,11 @@ def update_velocity_fish():
 
 def update_acceleration():
     if coords_ball.y <= SIZE_Y/2:
-        acceleration_k.x = -k1 * velocity_ball.x
-        acceleration_k.y = -k1 * velocity_ball.y
+        acceleration_k.x = - k1 * velocity_ball.x
+        acceleration_k.y = - k1 * velocity_ball.y
     elif coords_ball.y >= SIZE_Y/2 - 20 and coords_ball.x <= SIZE_X*3/4:
-        acceleration_k.x = -k2 * velocity_ball.x
-        acceleration_k.y = -k2 * velocity_ball.y
+        acceleration_k.x = - k2 * velocity_ball.x
+        acceleration_k.y = - k2 * velocity_ball.y
 
 
 def stop_ball():
@@ -161,7 +164,7 @@ def stop_ball():
 
 
 def check_raft():
-    if coords_ball.y <= SIZE_Y/2 - 20 and coords_ball.x >= SIZE_X*3/4:
+    if coords_ball.y >= SIZE_Y/2 - 20 and coords_ball.x >= SIZE_X*3/4:
         stop_ball()
 
 
@@ -175,7 +178,7 @@ def check_walls():
 
 
 def check_floor():
-    if coords_ball.y >= SIZE_Y*11/12-20:
+    if coords_ball.y >= SIZE_Y*11/12 - 20:
         stop_ball()
 
 
@@ -203,8 +206,8 @@ def move_fish(fish):
         update_velocity_fish()
         for i in range(5):
             fish[i].move(velocity_fish.x, velocity_fish.y)
-            c_fish.x += velocity_fish.x
-            c_fish.y += velocity_fish.y
+        c_fish.x += velocity_fish.x
+        c_fish.y += velocity_fish.y
         gr.time.sleep(0.2)
 
 
