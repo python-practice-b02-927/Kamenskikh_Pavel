@@ -101,14 +101,20 @@ def body_fish(c_fish):
 
 
 def tail_fish(c_fish):
-    tail = gr.Polygon(gr.Point(c_fish.x - 50, c_fish.y), gr.Point(c_fish.x - 70, c_fish.y - 20),
+    tail_1 = gr.Polygon(gr.Point(c_fish.x - 50, c_fish.y), gr.Point(c_fish.x - 70, c_fish.y - 20),
                       gr.Point(c_fish.x - 70, c_fish.y + 20))
-    tail.setOutline('Red')
-    tail.setFill('Red')
+    tail_1.setOutline('Red')
+    tail_1.setFill('Red')
 
-    tail.draw(w)
+    tail_2 = gr.Oval(gr.Point(c_fish.x - 65, c_fish.y + 20), gr.Point(c_fish.x - 85, c_fish.y - 20))
+    tail_2.setFill('Navy')
+    tail_2.setOutline('Navy')
 
-    fish.append(tail)
+    tail_1.draw(w)
+    tail_2.draw(w)
+
+    fish.append(tail_1)
+    fish.append(tail_2)
 
 
 def fin_fish(c_fish):
@@ -213,7 +219,7 @@ def move_ball(ball, colour):
 def move_fish(fish):
     if coords_ball.y >= SIZE_Y/2:
         update_velocity_fish()
-        for i in range(5):
+        for i in range(6):
             fish[i].move(velocity_fish.x, velocity_fish.y)
         c_fish.x += velocity_fish.x
         c_fish.y += velocity_fish.y
