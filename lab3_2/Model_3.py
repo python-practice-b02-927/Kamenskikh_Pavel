@@ -190,7 +190,7 @@ def decoration(w):
     draw_fish(c_fish)
 
 
-def remain(w):
+def remain_background(w):
     r1 = gr.Rectangle(gr.Point(0, SIZE_Y*11/12), gr.Point(SIZE_X, SIZE_Y))
     r1.setOutline('yellow4')
     r1.setFill('yellow4')
@@ -205,7 +205,7 @@ def move_ball(ball, colour):
     ball.move(velocity_ball.x, velocity_ball.y)
     coords_ball.x += velocity_ball.x
     coords_ball.y += velocity_ball.y
-    gr.time.sleep(0.2)
+    gr.time.sleep(0.1)
     update_acceleration()
     update_velocity_ball()
 
@@ -217,7 +217,7 @@ def move_fish(fish):
             fish[i].move(velocity_fish.x, velocity_fish.y)
         c_fish.x += velocity_fish.x
         c_fish.y += velocity_fish.y
-        gr.time.sleep(0.2)
+        gr.time.sleep(0.1)
 
 
 def main(ball):
@@ -237,7 +237,7 @@ decoration(w)
 ball = gr.Circle(coords_ball, 20)
 ball.draw(w)
 main(ball)
-
+remain_background(w)
 
 w.getMouse()
 w.close()
