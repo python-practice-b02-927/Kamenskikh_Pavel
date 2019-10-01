@@ -7,13 +7,13 @@ SIZE_Y = 600
 w = gr.GraphWin("Resistance", SIZE_X, SIZE_Y)
 
 k1 = 0.03
-k2 = 0.3
+k2 = 0.2
 
 V = 30
 coords_ball = gr.Point(100, SIZE_Y/2-20)
-a = pi/4
+a = pi/3
 velocity_ball = gr.Point(V*cos(a), -V*sin(a))
-acceleration_g = 2
+acceleration_g = 3
 acceleration_k = gr.Point(0, 0)
 
 fish = []
@@ -190,6 +190,15 @@ def decoration(w):
     draw_fish(c_fish)
 
 
+def remain(w):
+    r1 = gr.Rectangle(gr.Point(0, SIZE_Y*11/12), gr.Point(SIZE_X, SIZE_Y))
+    r1.setOutline('yellow4')
+    r1.setFill('yellow4')
+
+    r1.draw(w)
+    draw_fish(c_fish)
+
+
 def move_ball(ball, colour):
     ball.setFill(colour)
     ball.setOutline(colour)
@@ -228,6 +237,7 @@ decoration(w)
 ball = gr.Circle(coords_ball, 20)
 ball.draw(w)
 main(ball)
+
 
 w.getMouse()
 w.close()
