@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9871eca4-e641-46d5-83ff-6c7f8236d14b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/lab4.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/lab4.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Model_3.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model_3.py" afterDir="false" />
     </list>
@@ -28,7 +26,7 @@
     <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../peganov/lab3_3" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../peganov/lab3_3/three_bodies.py" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
@@ -197,6 +195,14 @@
       <option name="presentableId" value="Default" />
       <updated>1569317518429</updated>
     </task>
+    <task id="LOCAL-00001" summary="Function tail_fish was imroved, now fish looks more real">
+      <created>1569931761883</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1569931761883</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -211,5 +217,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Function tail_fish was imroved, now fish looks more real" />
+    <option name="LAST_COMMIT_MESSAGE" value="Function tail_fish was imroved, now fish looks more real" />
   </component>
 </project>
