@@ -12,7 +12,8 @@ friction_water = 0.2
 Velocity_ball_0 = 40
 coords_ball = gr.Point(100, SIZE_Y / 2 - 20)
 alpha = pi/3
-velocity_ball = gr.Point(Velocity_ball_0 * cos(alpha), -Velocity_ball_0 * sin(alpha))
+velocity_ball = gr.Point(Velocity_ball_0 * cos(alpha),
+                         -Velocity_ball_0 * sin(alpha))
 acceleration_g = 3
 acceleration_k = gr.Point(0, 0)
 
@@ -23,13 +24,18 @@ velocity_fish = gr.Point(0, 0)
 
 
 def draw_background(w):
-    sky = gr.Rectangle(gr.Point(0, 0), gr.Point(SIZE_X, SIZE_Y * 1 / 2))
+    sky = gr.Rectangle(gr.Point(0, 0),
+                       gr.Point(SIZE_X, SIZE_Y * 1 / 2))
     sky.setFill('LightSkyBlue')
     sky.setOutline('LightSkyBlue')
-    sea = gr.Rectangle(gr.Point(0, SIZE_Y * 1 / 2), gr.Point(SIZE_X, SIZE_Y * 11 / 12))
+
+    sea = gr.Rectangle(gr.Point(0, SIZE_Y * 1 / 2),
+                       gr.Point(SIZE_X, SIZE_Y * 11 / 12))
     sea.setFill('Navy')
     sea.setOutline('Navy')
-    sand = gr.Rectangle(gr.Point(0, SIZE_Y * 11 / 12), gr.Point(SIZE_X, SIZE_Y))
+
+    sand = gr.Rectangle(gr.Point(0, SIZE_Y * 11 / 12),
+                        gr.Point(SIZE_X, SIZE_Y))
     sand.setFill('yellow4')
     sand.setOutline('yellow4')
 
@@ -42,7 +48,8 @@ def draw_background(w):
 
 
 def draw_raft(x):
-    raft = gr.Rectangle(gr.Point(x, SIZE_Y / 2 - 10), gr.Point(x + 200, SIZE_Y / 2 + 20))
+    raft = gr.Rectangle(gr.Point(x, SIZE_Y / 2 - 10),
+                        gr.Point(x + 200, SIZE_Y / 2 + 20))
     raft.setFill('Brown')
     raft.setOutline('Brown')
 
@@ -91,7 +98,8 @@ def draw_fish(c_fish):
 
 
 def body_fish(c_fish):
-    body = gr.Oval(gr.Point(c_fish.x - 50, c_fish.y - 20), gr.Point(c_fish.x, c_fish.y + 20))
+    body = gr.Oval(gr.Point(c_fish.x - 50, c_fish.y - 20),
+                   gr.Point(c_fish.x, c_fish.y + 20))
     body.setFill('Green')
     body.setOutline('Green')
 
@@ -101,12 +109,14 @@ def body_fish(c_fish):
 
 
 def tail_fish(c_fish):
-    tail_1 = gr.Polygon(gr.Point(c_fish.x - 50, c_fish.y), gr.Point(c_fish.x - 70, c_fish.y - 20),
-                      gr.Point(c_fish.x - 70, c_fish.y + 20))
+    tail_1 = gr.Polygon(gr.Point(c_fish.x - 50, c_fish.y),
+                    gr.Point(c_fish.x - 70, c_fish.y - 20),
+                    gr.Point(c_fish.x - 70, c_fish.y + 20))
     tail_1.setOutline('Red')
     tail_1.setFill('Red')
 
-    tail_2 = gr.Oval(gr.Point(c_fish.x - 65, c_fish.y + 20), gr.Point(c_fish.x - 85, c_fish.y - 20))
+    tail_2 = gr.Oval(gr.Point(c_fish.x - 65, c_fish.y + 20),
+                    gr.Point(c_fish.x - 85, c_fish.y - 20))
     tail_2.setFill('Navy')
     tail_2.setOutline('Navy')
 
@@ -118,8 +128,9 @@ def tail_fish(c_fish):
 
 
 def fin_fish(c_fish):
-    fin = gr.Polygon(gr.Point(c_fish.x - 30, c_fish.y - 20), gr.Point(c_fish.x - 20, c_fish.y - 20),
-                     gr.Point(c_fish.x - 35, c_fish.y - 35))
+    fin = gr.Polygon(gr.Point(c_fish.x - 30, c_fish.y - 20),
+                    gr.Point(c_fish.x - 20, c_fish.y - 20),
+                    gr.Point(c_fish.x - 35, c_fish.y - 35))
     fin.setOutline('Red')
     fin.setFill('Red')
 
