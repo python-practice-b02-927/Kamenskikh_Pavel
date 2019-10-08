@@ -15,6 +15,7 @@ s = 'Score: '
 
 Number_balls = 0
 balls = []
+k = -1
 
 
 def new_ball():
@@ -24,7 +25,7 @@ def new_ball():
     x =d['x'] = rnd(100, 700)
     y = d['y'] = rnd(100, 500)
 
-    r = d['r'] = rnd(30, 50)
+    r = d['r'] = rnd(20, 40)
 
     d['color'] = choice(colors)
     d['v_y'] = rnd(-20, 20)
@@ -39,8 +40,15 @@ def new_ball():
 
 
 def update_coords(i):
+    check_walls(i)
     balls[i]['x'] +=  balls[i]['v_x']
     balls[i]['y'] += balls[i]['v_y']
+
+
+def check_walls(i):
+    if balls[i]['x'] >= 800 or balls[i]['x'] <= 0 or balls[i]['y'] >= 600 or balls[i]['y'] <= 0:
+        balls[i]['v_x'] = rnd(-20, 20)
+        balls[i]['v_y'] = rnd(-20, 20)
 
 
 def move():
@@ -50,22 +58,29 @@ def move():
         update_coords(i)
         canv.create_oval(balls[i]['x'] - balls[i]['r'], balls[i]['y'] - balls[i]['r'], balls[i]['x'] + balls[i]['r'],
                          balls[i]['y'] + balls[i]['r'], fill = balls[i]['color'], width=0)
-
     root.after(1000, move)
 
 
-def click(event, i):
+def click(event):
     global score
-    if ((event.x - balls[i]['x']) ** 2 + (event.y - balls[i]['y']) ** 2) ** 0.5 <= balls[i]['r']:
-        score += 1
+    for i in range(len(balls)):
+        if ((event.x - balls[i]['x']) ** 2 + (event.y - balls[i]['y']) ** 2) ** 0.5 <= balls[i]['r']:
+            score += 1
+            k = i
+            break
     else:
         canv.create_line(event.x - 5, event.y + 5, event.x + 5, event.y - 5, fill='red', width=3)
         canv.create_line(event.x + 5, event.y + 5, event.x - 5, event.y - 5, fill='red', width=3)
+
+    if k >= 0:
+        elem = balls.pop(k)
+
 
 def main():
     new_ball()
     move()
     canv.bind('<Button-1>', click)
+
 
 main()
 
