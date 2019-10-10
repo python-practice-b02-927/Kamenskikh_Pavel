@@ -1,6 +1,9 @@
 from tkinter import *
 from random import randrange as rnd, choice
 import time
+import json
+from operator import itemgetter
+
 root = Tk()
 root.geometry('800x600')
 
@@ -105,7 +108,7 @@ def click(event):
 
         if R <= balls[i]['r'] and balls[i]['shape'] == 'smile':
             delete.append(i)
-            score *= 2
+            score *= 20
 
     Number_balls = len(delete)
     for i in range(Number_balls):
@@ -119,6 +122,28 @@ def main():
     canv.bind('<Button-1>', click)
 
 
+def results():
+    liderscore_1 = {}
+    nickname = input("Enter your nickname\n")
+    with open('Lidership.json') as f:
+        liderscore = json.load(f)
+    if nickname in liderscore:
+        if liderscore[nickname] < score:
+            liderscore[nickname] = score
+    else:
+        liderscore[nickname] = score
+
+    list_liders = list(liderscore.items())
+
+    liderscore_sorted = sorted(list_liders, key=lambda i: i[1])
+
+    liderscore_1 = dict(liderscore_sorted)
+
+    with open('Lidership.json', 'w') as f:
+        json.dump(liderscore_1, f, indent=1)
+
+
 main()
 
 mainloop()
+results()
