@@ -12,6 +12,7 @@ canv = tk.Canvas(root, bg='white')
 canv.pack(fill=tk.BOTH, expand=1)
 
 
+
 class Ball:
     def __init__(self, x=40, y=450):
         """ Конструктор класса ball
@@ -22,9 +23,13 @@ class Ball:
         """
         self.x = x
         self.y = y
+        
         self.r = 10
+        
         self.vx = 0
         self.vy = 0
+        self.a = 2
+        
         self.color = choice(['blue', 'green', 'red', 'brown'])
         self.id = canv.create_oval(
                 self.x - self.r,
@@ -51,15 +56,14 @@ class Ball:
         self.x и self.y с учетом скоростей self.vx и self.vy, силы гравитации, действующей на мяч,
         и стен по краям окна (размер окна 800х600).
         """
-        # FIXME
-        self.vy -= 1
+        self.vy -= self.a
+
+        
         self.x += self.vx
         self.y -= self.vy
-        if self.x >= 800 - self.r or self.x <= self.r:
-            self.vx = -self.vx
-        if self.y >= 600 - self.r or self.y <= self.r:
-            self.vy = -self.vy
-        self.set_coord()
+        self.set_coord()        
+    
+
 
     def hit_it(self, obj):
 
@@ -70,7 +74,6 @@ class Ball:
         Returns:
             Возвращает True в случае столкновения мяча и цели. В противном случае возвращает False.
         """
-        # FIXME
         if ((self.x - obj.x)**2 + (self.y - obj.y)**2) <= obj.r:
             return True
         else:
@@ -97,19 +100,17 @@ class Gun:
         bullet += 1
         new_ball = Ball()
         new_ball.r += 5
-        self.f2_power = bullet
-        self.angle = math.atan((event.y - new_ball.y) / (event.x - new_ball.x))
-
+        self.angle = math.atan((event.y-new_ball.y) / (event.x-new_ball.x))
         new_ball.vx = self.f2_power * math.cos(self.angle)
         new_ball.vy = - self.f2_power * math.sin(self.angle)
-
         balls += [new_ball]
         self.f2_on = 0
+        self.f2_power = 10
 
     def targeting(self, event):
         """Прицеливание. Зависит от положения мыши."""
         if event:
-            self.angle = math.atan((event.y - 450) / (event.x - 20))
+            self.angle = math.atan((event.y-450) / (event.x-20))
         if self.f2_on:
             canv.itemconfig(self.id, fill='orange')
         else:
@@ -128,14 +129,13 @@ class Gun:
             canv.itemconfig(self.id, fill='black')
 
 
+
 class Target:
     def __init__(self):
         self.points = 0
         self.live = 1
-    # FIXME: don't work!!! How to call this functions when object is created?
         self.id = canv.create_oval(0, 0, 0, 0)
         self.id_points = canv.create_text(30, 30, text=self.points, font='28')
-      #  self.new_target()
         """ Инициализация новой цели. """
         self.x = rnd(600, 780)
         self.y = rnd(300, 550)
@@ -174,7 +174,7 @@ def new_game(event=''):
     while t1.live or balls:
         for b in balls:
             b.move()
-            if b.hit_it(t1) and t1.live:
+            if b.hit_it(t1):
                 t1.live = 0
                 t1.hit()
                 canv.bind('<Button-1>', '')
