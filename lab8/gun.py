@@ -29,6 +29,7 @@ class Ball:
         self.vx = 0
         self.vy = 0
         self.a = 2
+        self.hits = 0
 
         self.color = choice(['blue', 'green', 'red', 'brown'])
         self.id = canv.create_oval(
@@ -38,7 +39,6 @@ class Ball:
             self.y + self.r,
             fill=self.color
         )
-        self.live = 30
 
     def set_coord(self):
         canv.coords(
@@ -63,24 +63,25 @@ class Ball:
         self.check_walls()
         self.set_coord()
 
-    def check_walls(self, num_hits=0):
+    def check_walls(self):
         if self.x >= 800 - self.r:
             self.vx = -k * self.vx
             self.x -= self.r
-            num_hits += 1
+            self.hits += 1
+
         elif self.x <= self.r:
             self.vx = -k * self.vx
             self.x += self.r
-            num_hits += 1
+            self.hits += 1
 
         if self.y >= 600 - self.r:
             self.vy = -k * self.vy
             self.y -= self.r
-            num_hits += 1
+            self.hits += 1
         elif self.y <= self.r:
             self.vy = -k * self.vy
             self.y += self.r
-            num_hits += 1
+            self.hits += 1
 
     def hit_it(self, obj):
         """Функция проверяет сталкивалкивается ли данный обьект с целью, описываемой в обьекте obj.
@@ -90,10 +91,12 @@ class Ball:
         Returns:
             Возвращает True в случае столкновения мяча и цели. В противном случае возвращает False.
         """
-        if ((self.x - obj.x) ** 2 + (self.y - obj.y) ** 2) ** 0.5 <= obj.r + self.r:
+        if ((self.x - obj.x) ** 2 + (self.y - obj.y) ** 2) ** 0.5\
+                <= obj.r + self.r:
             return True
         else:
             return False
+
 
 
 class Gun:
@@ -158,6 +161,9 @@ class Target:
         self.color = 'red'
 
     def new_target(self):
+        self.x = rnd(600, 780)
+        self.y = rnd(300, 550)
+        self.r = rnd(2, 50)
         canv.coords(self.id, self.x - self.r, self.y - self.r, self.x + self.r, self.y + self.r)
         canv.itemconfig(self.id, fill=self.color)
 
@@ -169,6 +175,7 @@ class Target:
 
 
 target_1 = Target()
+#target_2 = Target()
 screen1 = canv.create_text(400, 300, text='', font='28')
 gun_1 = Gun()
 bullet = 0
@@ -176,33 +183,51 @@ balls = []
 
 
 def new_game(event=''):
-    global Gun, target_1, screen1, balls, bullet
+    global Gun, target_1, screen1, balls, bullet#, target_2
     target_1.new_target()
+    #target_2.new_target()
     canv.bind('<Button-1>', gun_1.fire2_start)
     canv.bind('<ButtonRelease-1>', gun_1.fire2_end)
     canv.bind('<Motion>', gun_1.targeting)
-
-    z = 0.03
     target_1.live = 1
-    while target_1.live or balls:
-        for b in balls:
-            b.move()
-            if b.hit_it(target_1) and target_1.live:
-                target_1.live = 0
-                target_1.hit()
-                canv.bind('<Button-1>', '')
-                canv.bind('<ButtonRelease-1>', '')
-                canv.itemconfig(screen1, text='Вы уничтожили цель за ' + str(bullet) + ' выстрелов')
+ #   target_2.live = 1
 
-        canv.update()
-        time.sleep(0.03)
-        gun_1.targeting(event)
-        gun_1.power_up()
+    while target_1.live == 1:  #and target_2.live == 1:
+        if balls:
+            for b in balls:
+                b.move()
+                if b.hit_it(target_1) and target_1.live:
+                    b.hits = 20
+                    target_1.live = 0
+                    target_1.hit()
+                    canv.bind('<Button-1>', '')
+                    canv.bind('<ButtonRelease-1>', '')
+                    canv.itemconfig(screen1, text='Вы уничтожили цель за ' + str(bullet) + ' выстрелов')
+                    bullet = 0
+
+                if b.hits >= 10:
+                    canv.delete(b.id)
+                    balls.remove(b)
+
+            canv.update()
+            time.sleep(0.03)
+            gun_1.targeting(event)
+            gun_1.power_up()
+
+    time.sleep(2)
     canv.itemconfig(screen1, text='')
-    canv.delete(Gun)
+    canv.delete(gun_1)
     root.after(750, new_game)
 
 
 new_game()
 
 tk.mainloop()
+
+#if b.hit_it(target_2) and target_2.live:
+ #   b.hits = 20
+  #  target_2.live = 0
+   # target_2.hit()
+    #canv.bind('<Button-1>', '')
+    #canv.bind('<ButtonRelease-1>', '')
+    #bullet = 0
