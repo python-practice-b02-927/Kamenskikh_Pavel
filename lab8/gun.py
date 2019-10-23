@@ -3,6 +3,7 @@ import tkinter as tk
 import math
 import time
 
+from math import pi, cos, sin
 # print (dir(math))
 
 root = tk.Tk()
@@ -10,7 +11,7 @@ fr = tk.Frame(root)
 root.geometry('800x600')
 canv = tk.Canvas(root, bg='white')
 canv.pack(fill=tk.BOTH, expand=1)
-k = 0.8
+k = 0.4
 
 
 class Ball:
@@ -75,7 +76,7 @@ class Ball:
             self.hits += 1
 
         if self.y >= 600 - self.r:
-            self.vy = -k * self.vy
+            self.vy = - self.vy
             self.y -= self.r
             self.hits += 1
         elif self.y <= self.r:
@@ -93,6 +94,9 @@ class Ball:
         """
         if ((self.x - obj.x) ** 2 + (self.y - obj.y) ** 2) ** 0.5\
                 <= obj.r + self.r:
+            obj.v = 0
+            obj.x = -100
+            obj.y = -100
             return True
         else:
             return False
@@ -158,6 +162,10 @@ class Target:
         self.x = rnd(600, 780)
         self.y = rnd(300, 550)
         self.r = rnd(2, 50)
+        self.angle = rnd(-314, 314) / 100
+        self.v = rnd(1, 20)
+        self.vx = self.v * cos(self.angle)
+        self.vy = self.v * sin(self.angle)
         self.color = 'red'
 
     def new_target(self):
@@ -173,9 +181,35 @@ class Target:
         self.points += points
         canv.itemconfig(self.id_points, text=self.points)
 
+    def set_coord(self):
+        canv.coords(
+            self.id,
+            self.x - self.r,
+            self.y - self.r,
+            self.x + self.r,
+            self.y + self.r
+        )
+
+    def check_walls(self):
+        if self.x >= 800 - self.r:
+            self.vx = - self.vx
+        elif self.x <= self.r:
+            self.vx = - self.vx
+
+        if self.y >= 600 - self.r:
+            self.vy = - self.vy
+        elif self.y <= self.r:
+            self.vy = - self.vy
+
+    def move(self):
+        self.x += self.vx
+        self.y -= self.vy
+        self.check_walls()
+        self.set_coord()
+
 
 target_1 = Target()
-#target_2 = Target()
+target_2 = Target()
 screen1 = canv.create_text(400, 300, text='', font='28')
 gun_1 = Gun()
 bullet = 0
@@ -183,27 +217,46 @@ balls = []
 
 
 def new_game(event=''):
-    global Gun, target_1, screen1, balls, bullet#, target_2
+    global Gun, target_1, screen1, balls, bullet
     target_1.new_target()
-    #target_2.new_target()
+    target_2.new_target()
     canv.bind('<Button-1>', gun_1.fire2_start)
     canv.bind('<ButtonRelease-1>', gun_1.fire2_end)
     canv.bind('<Motion>', gun_1.targeting)
     target_1.live = 1
- #   target_2.live = 1
-
-    while target_1.live == 1:  #and target_2.live == 1:
-        if balls:
+    target_2.live = 1
+    aim = 0
+    while target_1.live == 1 or target_2.live == 1:
+        if target_1.live or balls or target_2.live:
+            target_2.move()
+            target_1.move()
             for b in balls:
                 b.move()
                 if b.hit_it(target_1) and target_1.live:
                     b.hits = 20
                     target_1.live = 0
+                    aim += 1
                     target_1.hit()
-                    canv.bind('<Button-1>', '')
-                    canv.bind('<ButtonRelease-1>', '')
-                    canv.itemconfig(screen1, text='Вы уничтожили цель за ' + str(bullet) + ' выстрелов')
-                    bullet = 0
+                    print(aim)
+                    if aim == 2:
+                        canv.itemconfig(screen1, text='Все противники уничтожены! '
+                                                      '\n  Потрачено: ' + str(bullet) + ' выстрелов')
+                        bullet = 0
+                        canv.bind('<Button-1>', '')
+                        canv.bind('<ButtonRelease-1>', '')
+
+                if b.hit_it(target_2) and target_2.live:
+                    b.hits = 20
+                    target_2.live = 0
+                    aim += 1
+                    target_2.hit()
+                    print(aim)
+                    if aim == 2:
+                        canv.itemconfig(screen1, text='Все противники уничтожены!'
+                                                      ' \n  Потрачено: ' + str(bullet) + ' выстрелов')
+                        bullet = 0
+                        canv.bind('<Button-1>', '')
+                        canv.bind('<ButtonRelease-1>', '')
 
                 if b.hits >= 10:
                     canv.delete(b.id)
@@ -214,7 +267,7 @@ def new_game(event=''):
             gun_1.targeting(event)
             gun_1.power_up()
 
-    time.sleep(2)
+    time.sleep(5)
     canv.itemconfig(screen1, text='')
     canv.delete(gun_1)
     root.after(750, new_game)
@@ -223,11 +276,3 @@ def new_game(event=''):
 new_game()
 
 tk.mainloop()
-
-#if b.hit_it(target_2) and target_2.live:
- #   b.hits = 20
-  #  target_2.live = 0
-   # target_2.hit()
-    #canv.bind('<Button-1>', '')
-    #canv.bind('<ButtonRelease-1>', '')
-    #bullet = 0
