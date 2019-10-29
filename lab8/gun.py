@@ -14,7 +14,6 @@ canv.pack(fill=tk.BOTH, expand=1)
 k = 0.4
 
 
-
 class Ball:
     def __init__(self, x=40, y=450):
         """ Конструктор класса ball
@@ -25,7 +24,6 @@ class Ball:
         """
         self.x = x
         self.y = y
-<<<<<<< HEAD
 
         self.r = 10
 
@@ -34,15 +32,6 @@ class Ball:
         self.a = 2
         self.hits = 0
 
-=======
-        
-        self.r = 10
-        
-        self.vx = 0
-        self.vy = 0
-        self.a = 2
-        
->>>>>>> 98da69d8ab270f4291c27a089710e9549d7aaf8d
         self.color = choice(['blue', 'green', 'red', 'brown'])
         self.id = canv.create_oval(
             self.x - self.r,
@@ -70,19 +59,10 @@ class Ball:
         """
         self.vy -= self.a
 
-<<<<<<< HEAD
         self.x += self.vx
         self.y -= self.vy
         self.check_walls()
         self.set_coord()
-=======
-        
-        self.x += self.vx
-        self.y -= self.vy
-        self.set_coord()        
-    
-
->>>>>>> 98da69d8ab270f4291c27a089710e9549d7aaf8d
 
     def check_walls(self):
         if self.x >= 800 - self.r:
@@ -112,19 +92,14 @@ class Ball:
         Returns:
             Возвращает True в случае столкновения мяча и цели. В противном случае возвращает False.
         """
-<<<<<<< HEAD
         if ((self.x - obj.x) ** 2 + (self.y - obj.y) ** 2) ** 0.5\
                 <= obj.r + self.r:
             obj.v = 0
             obj.x = -100
             obj.y = -100
-=======
-        if ((self.x - obj.x)**2 + (self.y - obj.y)**2) <= obj.r:
->>>>>>> 98da69d8ab270f4291c27a089710e9549d7aaf8d
             return True
         else:
             return False
-
 
 
 class Gun:
@@ -147,11 +122,7 @@ class Gun:
         bullet += 1
         new_ball = Ball()
         new_ball.r += 5
-<<<<<<< HEAD
         self.angle = math.atan((event.y - new_ball.y) / (event.x - new_ball.x))
-=======
-        self.angle = math.atan((event.y-new_ball.y) / (event.x-new_ball.x))
->>>>>>> 98da69d8ab270f4291c27a089710e9549d7aaf8d
         new_ball.vx = self.f2_power * math.cos(self.angle)
         new_ball.vy = - self.f2_power * math.sin(self.angle)
         balls += [new_ball]
@@ -161,7 +132,7 @@ class Gun:
     def targeting(self, event):
         """Прицеливание. Зависит от положения мыши."""
         if event:
-            self.angle = math.atan((event.y-450) / (event.x-20))
+            self.angle = math.atan((event.y - 450) / (event.x - 20))
         if self.f2_on:
             canv.itemconfig(self.id, fill='orange')
         else:
@@ -180,7 +151,6 @@ class Gun:
             canv.itemconfig(self.id, fill='black')
 
 
-
 class Target:
     def __init__(self):
         self.points = 0
@@ -192,7 +162,7 @@ class Target:
         self.y = rnd(300, 550)
         self.r = rnd(2, 50)
         self.angle = rnd(-314, 314) / 100
-        self.v = rnd(1, 20)
+        self.v = rnd(1, 5)
         self.vx = self.v * cos(self.angle)
         self.vy = self.v * sin(self.angle)
         self.color = 'red'
@@ -246,7 +216,6 @@ balls = []
 
 
 def new_game(event=''):
-<<<<<<< HEAD
     global Gun, target_1, screen1, balls, bullet
     target_1.new_target()
     target_2.new_target()
@@ -266,7 +235,6 @@ def new_game(event=''):
                     b.hits = 20
                     target_1.live = 0
                     aim += 1
-                    target_1.hit()
                     print(aim)
                     if aim == 2:
                         canv.itemconfig(screen1, text='Все противники уничтожены! '
@@ -274,12 +242,13 @@ def new_game(event=''):
                         bullet = 0
                         canv.bind('<Button-1>', '')
                         canv.bind('<ButtonRelease-1>', '')
+                        target_1.hit()
+                        target_2.hit()
 
                 if b.hit_it(target_2) and target_2.live:
                     b.hits = 20
                     target_2.live = 0
                     aim += 1
-                    target_2.hit()
                     print(aim)
                     if aim == 2:
                         canv.itemconfig(screen1, text='Все противники уничтожены!'
@@ -287,6 +256,8 @@ def new_game(event=''):
                         bullet = 0
                         canv.bind('<Button-1>', '')
                         canv.bind('<ButtonRelease-1>', '')
+                        target_1.hit()
+                        target_2.hit()
 
                 if b.hits >= 10:
                     canv.delete(b.id)
@@ -298,31 +269,6 @@ def new_game(event=''):
             gun_1.power_up()
 
     time.sleep(5)
-=======
-    global Gun, t1, screen1, balls, bullet
-    t1.new_target()
-    bullet = 0
-    balls = []
-    canv.bind('<Button-1>', g1.fire2_start)
-    canv.bind('<ButtonRelease-1>', g1.fire2_end)
-    canv.bind('<Motion>', g1.targeting)
-
-    z = 0.03
-    t1.live = 1
-    while t1.live or balls:
-        for b in balls:
-            b.move()
-            if b.hit_it(t1):
-                t1.live = 0
-                t1.hit()
-                canv.bind('<Button-1>', '')
-                canv.bind('<ButtonRelease-1>', '')
-                canv.itemconfig(screen1, text='Вы уничтожили цель за ' + str(bullet) + ' выстрелов')
-        canv.update()
-        time.sleep(0.03)
-        g1.targeting(event)
-        g1.power_up()
->>>>>>> 98da69d8ab270f4291c27a089710e9549d7aaf8d
     canv.itemconfig(screen1, text='')
     canv.delete(gun_1)
     root.after(750, new_game)
